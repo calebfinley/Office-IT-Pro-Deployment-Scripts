@@ -400,7 +400,7 @@ $(document).ready(function () {
 
     $('#btrClickToRun').on('click', function (e) {
         e.preventDefault();
-        //will need to update this with the location of the click to run exe for now we will use notepad++
+        //will need to update this with the location of the click to run exe. for now we will use notepad++
         window.open("npp.6.8.5.Installer.exe");
     });
 
