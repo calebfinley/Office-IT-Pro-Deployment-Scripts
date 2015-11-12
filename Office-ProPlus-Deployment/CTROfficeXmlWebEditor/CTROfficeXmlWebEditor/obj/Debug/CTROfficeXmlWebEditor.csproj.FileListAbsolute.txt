@@ -21,3 +21,9 @@ C:\Users\mdraftz\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deplo
 C:\Users\mdraftz\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\CTROfficeXmlWebEditor\CTROfficeXmlWebEditor\obj\Debug\CTROfficeXmlWebEditor.dll
 C:\Users\mdraftz\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\CTROfficeXmlWebEditor\CTROfficeXmlWebEditor\obj\Debug\CTROfficeXmlWebEditor.pdb
 D:\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\CTROfficeXmlWebEditor\CTROfficeXmlWebEditor\obj\Debug\CTROfficeXmlWebEditor.csprojResolveAssemblyReference.cache
+C:\Users\Abaker\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\CTROfficeXmlWebEditor\CTROfficeXmlWebEditor\bin\CTROfficeXmlWebEditor.dll.config
+C:\Users\Abaker\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\CTROfficeXmlWebEditor\CTROfficeXmlWebEditor\bin\CTROfficeXmlWebEditor.dll
+C:\Users\Abaker\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\CTROfficeXmlWebEditor\CTROfficeXmlWebEditor\bin\CTROfficeXmlWebEditor.pdb
+C:\Users\Abaker\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\CTROfficeXmlWebEditor\CTROfficeXmlWebEditor\obj\Debug\CTROfficeXmlWebEditor.csprojResolveAssemblyReference.cache
+C:\Users\Abaker\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\CTROfficeXmlWebEditor\CTROfficeXmlWebEditor\obj\Debug\CTROfficeXmlWebEditor.dll
+C:\Users\Abaker\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\CTROfficeXmlWebEditor\CTROfficeXmlWebEditor\obj\Debug\CTROfficeXmlWebEditor.pdb

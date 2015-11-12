@@ -268,7 +268,14 @@
                                             <span class="ms-Table-cell" onclick="setPanel('TemplatesPanel', 'templatesRow')">Templates</span>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="ms-Table">
+                                        <div class="ms-Table-row">
+                                            <span class="ms-font-xl">Tools</span>
+                                        </div>
+                                        <div id="installRow" class="ms-Table-row navrow">
+                                            <span class="ms-Table-cell" onclick="setPanel('GenerateInstallPanel', 'templatesRow')">Generate Install</span>
+                                        </div>
+                                    </div>
                             </div>
                         </td>
                         <td style="vertical-align: top;">
@@ -927,6 +934,27 @@
                                     </ul>
                                 </div>
                                 <!-- End Templates Panel -->
+                                <!--Start Generate Install Panel-->
+                                <div id="GenerateInstallPanel" class="option-panel">
+                                    <h1 class="ms-font-xxl">Generate Your Installation</h1>
+                                    <ul class="ms-List">
+                                        <div id="proPlusRetail" class="ms-ListItem is-unread is-selectable" href="./templates/0365ProPlusRetail.xml" onclick="setTemplate(this)">
+                                            <span class="ms-ListItem-primaryText">Office 365 ProPlus</span>
+                                            <span class="ms-ListItem-tertiaryText" style="word-wrap:break-word;">Silent install of 32-Bit Office 365 ProPlus with Updates and Logging enabled</span>
+                                            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
+                                        </div>
+                                        <div id="proPlusBusiness" class="ms-ListItem is-unread is-selectable" href="./templates/0365ProPlusBusiness.xml" onclick="setTemplate(this)">
+                                            <span class="ms-ListItem-primaryText">Office 365 for Business</span>
+                                            <span class="ms-ListItem-tertiaryText">Silent install of 32-Bit Office 365 for Business with Updates and Logging enabled</span>
+                                            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
+                                        </div>
+                                        <div id="proPlusRetailVisio" class="ms-ListItem is-unread is-selectable" href="./templates/O365ProPlusRetailwVisio.xml" onclick="setTemplate(this)">
+                                            <span class="ms-ListItem-primaryText">Office 365 ProPlus with Visio</span>
+                                            <span class="ms-ListItem-tertiaryText">Silent install of 32-Bit Office 365 ProPlus with Visio with Updates and Logging enabled</span>
+                                            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
+                                        </div>
+                                    </ul>
+                                </div>
                             </div>
                         </td>
                         <td style="vertical-align: top;">
