@@ -398,12 +398,18 @@ $(document).ready(function () {
         return false;
     });
 
+    $('#btrClickToRun').on('click', function (e) {
+        e.preventDefault();
+        //will need to update this with the location of the click to run exe for now we will use notepad++
+        window.open("npp.6.8.5.Installer.exe");
+    });
+
     $(window).scroll(function() {
         scrollXmlEditor();
     });
 
     changeVersions("2016");
-
+     
     $('#txtVersion').keydown(function (e) {
         restrictToVersion(e);
     });
@@ -2645,6 +2651,8 @@ function setTemplate(template) {
     rawFile.send();
 
 }
+
+
 
 var versions = [
 '15.0.4745.1001',

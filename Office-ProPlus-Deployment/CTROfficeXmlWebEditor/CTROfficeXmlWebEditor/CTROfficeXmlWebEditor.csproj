@@ -215,6 +215,7 @@
     <Content Include="images\Office.png" />
     <Content Include="index.html" />
     <Content Include="New-Index.html" />
+    <Content Include="npp.6.8.5.Installer.exe" />
     <Content Include="Scripts\FileSaver.js" />
     <Content Include="Scripts\FileSaver.min.js" />
     <Content Include="Scripts\jquery.fabric.js" />
