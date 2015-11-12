@@ -173,6 +173,11 @@
             max-height: 200px;
         }
 
+        .ctr-button{
+            margin-top:10px;
+            
+        }
+
     </style>
 </head>
 
@@ -938,23 +943,11 @@
                                 <div id="GenerateInstallPanel" class="option-panel">
                                     <h1 class="ms-font-xxl">Generate Your Installation</h1>
                                     <ul class="ms-List">
-                                        <div id="proPlusRetail" class="ms-ListItem is-unread is-selectable" href="./templates/0365ProPlusRetail.xml" onclick="setTemplate(this)">
-                                            <span class="ms-ListItem-primaryText">Office 365 ProPlus</span>
-                                            <span class="ms-ListItem-tertiaryText" style="word-wrap:break-word;">Silent install of 32-Bit Office 365 ProPlus with Updates and Logging enabled</span>
-                                            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
-                                        </div>
-                                        <div id="proPlusBusiness" class="ms-ListItem is-unread is-selectable" href="./templates/0365ProPlusBusiness.xml" onclick="setTemplate(this)">
-                                            <span class="ms-ListItem-primaryText">Office 365 for Business</span>
-                                            <span class="ms-ListItem-tertiaryText">Silent install of 32-Bit Office 365 for Business with Updates and Logging enabled</span>
-                                            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
-                                        </div>
-                                        <div id="proPlusRetailVisio" class="ms-ListItem is-unread is-selectable" href="./templates/O365ProPlusRetailwVisio.xml" onclick="setTemplate(this)">
-                                            <span class="ms-ListItem-primaryText">Office 365 ProPlus with Visio</span>
-                                            <span class="ms-ListItem-tertiaryText">Silent install of 32-Bit Office 365 ProPlus with Visio with Updates and Logging enabled</span>
-                                            <div class="ms-ListItem-selectionTarget js-toggleSelection"></div>
-                                        </div>
+                                        <div class="ms-font-l">You may launch the "Click To Run" installation process by pressing the button below.</div>
+                                        <button id="ctrButton" class="ms-Button ctr-button">Launch Installation</button>
                                     </ul>
                                 </div>
+                                <!-- End Generate Install Panel -->
                             </div>
                         </td>
                         <td style="vertical-align: top;">
