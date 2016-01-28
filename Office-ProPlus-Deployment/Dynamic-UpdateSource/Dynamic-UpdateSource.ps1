@@ -568,28 +568,28 @@ Function GetScriptPath() {
     $octects = $SubnetMask.Split(".")
     
     foreach($octet in $octects){      #for checking number of bits used in subnet, increases counter since the mask always counts from left hand side, so 
-        if($octet -ge 128){               #just adding value of that slot for each bit as it reads to the right
+        if([int]$octet -ge 128){               #just adding value of that slot for each bit as it reads to the right
             $bitCounter++
         }
-        if($octet -ge 192){
+        if([int]$octet -ge 192){
             $bitCounter++
         }
-        if($octet -ge 224){
+        if([int]$octet -ge 224){
             $bitCounter++
         }
-        if($octet -ge 240){
+        if([int]$octet -ge 240){
             $bitCounter++
         }
-        if($octet -ge 248){
+        if([int]$octet -ge 248){
             $bitCounter++
         }
-        if($octet -ge 252){
+        if([int]$octet -ge 252){
             $bitCounter++
         }
-        if($octet -ge 254){
+        if([int]$octet -ge 254){
             $bitCounter++
         }
-        if($octet -ge 255){
+        if([int]$octet -ge 255){
             $bitCounter++
         }
     }
