@@ -55,6 +55,8 @@ Will Dynamically set the Update Source based a list Provided
      $nic = gwmi -computer . -class "win32_networkadapterconfiguration" | Where-Object {$_.defaultIPGateway -ne $null}
      $IPAddress = $nic.ipaddress | select-object -first 1
      $subnetMask = $nic.ipsubnet | select-object -first 1
+     
+
      $computerIPSubnet = GetSubnet -IpAddress $IPAddress -SubnetMask $subnetMask
      $computerIPSubnet += "/"
      $computerIPSubnet += ConvertSubnetMaskToNumBits -SubnetMask  $subnetMask
@@ -219,9 +221,6 @@ Here is what the portion of configuration file looks like when modified by this 
         }
 
         #Set values as desired
-        if($Branch -ne $null){
-            $ConfigFile.Configuration.Add.SetAttribute("Branch", $Branch);
-        }
 
         if([string]::IsNullOrWhiteSpace($SourcePath) -eq $false){
             $ConfigFile.Configuration.Add.SetAttribute("SourcePath", $SourcePath) | Out-Null
@@ -230,6 +229,13 @@ Here is what the portion of configuration file looks like when modified by this 
                 $ConfigFile.Configuration.Add.RemoveAttribute("SourcePath")
             }
         }
+
+        <#
+        if($Branch -ne $null){
+            $ConfigFile.Configuration.Add.SetAttribute("Branch", $Branch);
+        }
+
+        
 
         if([string]::IsNullOrWhiteSpace($Version) -eq $false){
             $ConfigFile.Configuration.Add.SetAttribute("Version", $Version) | Out-Null
@@ -246,6 +252,8 @@ Here is what the portion of configuration file looks like when modified by this 
                 $ConfigFile.Configuration.Add.RemoveAttribute("OfficeClientEdition")
             }
         }
+
+        #>
 
         $ConfigFile.Save($TargetFilePath) | Out-Null
         $global:saveLastFilePath = $TargetFilePath
@@ -370,58 +378,52 @@ Here is what the portion of configuration file looks like when modified by this 
             throw $NoConfigurationElement
         }
 
-        #Get Updates element if it exists
+        #Get Add element if it exists
         if($ConfigFile.Configuration.Updates -eq $null){
-            [System.XML.XMLElement]$UpdatesElement=$ConfigFile.CreateElement("Updates")
-            $ConfigFile.Configuration.appendChild($UpdatesElement) | Out-Null
+            [System.XML.XMLElement]$AddElement=$ConfigFile.CreateElement("Updates")
+            $ConfigFile.Configuration.appendChild($AddElement) | Out-Null
         }
 
-        $nodes = $ConfigFile.SelectNodes("/Configuration/Updates");
+        #Set values as desired
 
-        foreach($node in $nodes){
-
-            #Set values as desired
-            if([string]::IsNullOrWhiteSpace($Enabled) -eq $false){            
-                $node.SetAttribute("Enabled", $Enabled) | Out-Null
-            } else {
-                if ($node.HasAttribute('Enabled')) {
-                    $node.RemoveAttribute("Enabled")
-                }
+        if([string]::IsNullOrWhiteSpace($UpdatePath) -eq $false){
+            $ConfigFile.Configuration.Updates.SetAttribute("UpdatePath", $UpdatePath) | Out-Null
+        } else {
+            if ($PSBoundParameters.ContainsKey('UpdatePath')) {
+                $ConfigFile.Configuration.Updates.RemoveAttribute("UpdatePath")
             }
-
-            if([string]::IsNullOrWhiteSpace($UpdatePath) -eq $false){
-                $node.SetAttribute("UpdatePath", $UpdatePath) | Out-Null
-            } else {
-                if ($node.HasAttribute('UpdatePath')) {
-                    $node.RemoveAttribute("UpdatePath")
-                }
+        }
+        <#
+        if([string]::IsNullOrWhiteSpace($Enabled) -eq $false){
+            $ConfigFile.Configuration.Updates.SetAttribute("Enabled", $Enabled) | Out-Null
+        } else {
+            if ($PSBoundParameters.ContainsKey('Enabled')) {
+                $ConfigFile.Configuration.Updates.RemoveAttribute("Enabled")
             }
+        }
         
-            if([string]::IsNullOrWhiteSpace($TargetVersion) -eq $false){
-                $node.SetAttribute("Version", $TargetVersion) | Out-Null
-            } else {
-                if ($node.HasAttribute('TargetVersion')) {
-                    $node.RemoveAttribute("TargetVersion")
-                }
+        
+        if([string]::IsNullOrWhiteSpace($TargetVersion) -eq $false){
+            $ConfigFile.Configuration.Updates.SetAttribute("Version", $TargetVersion) | Out-Null
+        } else {
+            if ($PSBoundParameters.ContainsKey('TargetVersion')) {
+                $ConfigFile.Configuration.Updates.RemoveAttribute("TargetVersion")
             }
-
-            if([string]::IsNullOrWhiteSpace($Deadline) -eq $false){
-                $node.SetAttribute("Deadline", $Deadline) | Out-Null
-            } else {
-                if ($node.HasAttribute('Deadline')) {
-                    $node.RemoveAttribute("Deadline")
-                }
-            }
-
-            if($Branch -ne $null){
-                $node.SetAttribute("Branch", $Branch);
-            } else {
-                if ($node.HasAttribute('Branch')) {
-                    $node.RemoveAttribute("Branch")
-                }
-            }
-
         }
+
+        if([string]::IsNullOrWhiteSpace($Deadline) -eq $false){
+            $ConfigFile.Configuration.Updates.SetAttribute("Deadline", $Deadline) | Out-Null
+        } else {
+            if ($PSBoundParameters.ContainsKey('Deadline')) {
+                $ConfigFile.Configuration.Updates.RemoveAttribute("Deadline")
+            }
+        }
+
+        if($Branch -ne $null){
+            $ConfigFile.Configuration.Updates.SetAttribute("Branch", $Branch);
+        }
+        #>
+        
 
         
 
@@ -614,58 +616,58 @@ Function GetScriptPath() {
         }
         #end set num bits in current octet
 
-        if($numBitsInThisOctet -ge 0){    #to find subnet, subtract value of each spot while decrementing the number of spots used in this octet
+        if($numBitsInThisOctet -gt 0){    #to find subnet, subtract value of each spot while decrementing the number of spots used in this octet
             $numBitsInThisOctet--         #it'll stop counting when the number of spots used for subnet runs out
-            if($octet -ge 128){
+            if([int]$octet -ge 128){
                 $tempOctet += 128
                 $octet -= 128
             }
         }
-        if($numBitsInThisOctet -ge 0){
+        if($numBitsInThisOctet -gt 0){
             $numBitsInThisOctet--
-            if($octet -ge 64){
+            if([int]$octet -ge 64){
                 $tempOctet += 64
                 $octet -= 64
             }
         }
-        if($numBitsInThisOctet -ge 0){
+        if($numBitsInThisOctet -gt 0){
             $numBitsInThisOctet--
-            if($octet -ge 32){
+            if([int]$octet -ge 32){
                 $tempOctet += 32
                 $octet -= 32
             }
         }
-        if($numBitsInThisOctet -ge 0){
+        if($numBitsInThisOctet -gt 0){
             $numBitsInThisOctet--
-            if($octet -ge 16){
+            if([int]$octet -ge 16){
                 $tempOctet += 16
                 $octet -= 16
             }
         }
-        if($numBitsInThisOctet -ge 0){
+        if($numBitsInThisOctet -gt 0){
             $numBitsInThisOctet--
-            if($octet -ge 8){
+            if([int]$octet -ge 8){
                 $tempOctet += 8
                 $octet -= 8
             }
         }
-        if($numBitsInThisOctet -ge 0){
+        if($numBitsInThisOctet -gt 0){
             $numBitsInThisOctet--
-            if($octet -ge 4){
+            if([int]$octet -ge 4){
                 $tempOctet += 4
                 $octet -= 4
             }
         }
-        if($numBitsInThisOctet -ge 0){
+        if($numBitsInThisOctet -gt 0){
             $numBitsInThisOctet--
-            if($octet -ge 2){
+            if([int]$octet -ge 2){
                 $tempOctet += 2
                 $octet -= 2
             }
         }
-        if($numBitsInThisOctet -ge 0){
+        if($numBitsInThisOctet -gt 0){
             $numBitsInThisOctet--
-            if($octet -ge 1){
+            if([int]$octet -ge 1){
                 $tempOctet += 1
                 $octet -= 1
             }
