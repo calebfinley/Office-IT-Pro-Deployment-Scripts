@@ -385,44 +385,54 @@ Here is what the portion of configuration file looks like when modified by this 
         }
 
         #Set values as desired
+         $nodes = $ConfigFile.SelectNodes("/Configuration/Updates");
 
-        if([string]::IsNullOrWhiteSpace($UpdatePath) -eq $false){
-            $ConfigFile.Configuration.Updates.SetAttribute("UpdatePath", $UpdatePath) | Out-Null
-        } else {
-            if ($PSBoundParameters.ContainsKey('UpdatePath')) {
-                $ConfigFile.Configuration.Updates.RemoveAttribute("UpdatePath")
-            }
-        }
-        <#
-        if([string]::IsNullOrWhiteSpace($Enabled) -eq $false){
-            $ConfigFile.Configuration.Updates.SetAttribute("Enabled", $Enabled) | Out-Null
-        } else {
-            if ($PSBoundParameters.ContainsKey('Enabled')) {
-                $ConfigFile.Configuration.Updates.RemoveAttribute("Enabled")
-            }
-        }
-        
-        
-        if([string]::IsNullOrWhiteSpace($TargetVersion) -eq $false){
-            $ConfigFile.Configuration.Updates.SetAttribute("Version", $TargetVersion) | Out-Null
-        } else {
-            if ($PSBoundParameters.ContainsKey('TargetVersion')) {
-                $ConfigFile.Configuration.Updates.RemoveAttribute("TargetVersion")
-            }
-        }
-
-        if([string]::IsNullOrWhiteSpace($Deadline) -eq $false){
-            $ConfigFile.Configuration.Updates.SetAttribute("Deadline", $Deadline) | Out-Null
-        } else {
-            if ($PSBoundParameters.ContainsKey('Deadline')) {
-                $ConfigFile.Configuration.Updates.RemoveAttribute("Deadline")
-            }
-        }
-
-        if($Branch -ne $null){
-            $ConfigFile.Configuration.Updates.SetAttribute("Branch", $Branch);
-        }
-        #>
+        foreach($node in $nodes){
+ 
+             #Set values as desired
+             if([string]::IsNullOrWhiteSpace($UpdatePath) -eq $false){
+                 $node.SetAttribute("UpdatePath", $UpdatePath) | Out-Null
+             } else {
+                 if ($node.HasAttribute('UpdatePath')) {
+                     $node.RemoveAttribute("UpdatePath")
+                 }
+             }
+             <#
+             if([string]::IsNullOrWhiteSpace($Enabled) -eq $false){            
+                 $node.SetAttribute("Enabled", $Enabled) | Out-Null
+             } else {
+                 if ($node.HasAttribute('Enabled')) {
+                     $node.RemoveAttribute("Enabled")
+                 }
+             }
+ 
+             
+         
+             if([string]::IsNullOrWhiteSpace($TargetVersion) -eq $false){
+                 $node.SetAttribute("Version", $TargetVersion) | Out-Null
+             } else {
+                 if ($node.HasAttribute('TargetVersion')) {
+                     $node.RemoveAttribute("TargetVersion")
+                 }
+             }
+ 
+             if([string]::IsNullOrWhiteSpace($Deadline) -eq $false){
+                 $node.SetAttribute("Deadline", $Deadline) | Out-Null
+             } else {
+                 if ($node.HasAttribute('Deadline')) {
+                     $node.RemoveAttribute("Deadline")
+                 }
+             }
+ 
+             if($Branch -ne $null){
+                 $node.SetAttribute("Branch", $Branch);
+             } else {
+                 if ($node.HasAttribute('Branch')) {
+                     $node.RemoveAttribute("Branch")
+                 }
+             }
+         #>
+         }
         
 
         
