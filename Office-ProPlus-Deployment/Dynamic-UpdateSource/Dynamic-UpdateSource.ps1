@@ -54,12 +54,7 @@ Will Dynamically set the Update Source based a list Provided
      #add ip address and subnet mask here
      $nic = gwmi -computer . -class "win32_networkadapterconfiguration" | Where-Object {$_.defaultIPGateway -ne $null}
      $IPAddress = $nic.ipaddress | select-object -first 1
-     $subnetMask = $nic.ipsubnet | select-object -first 1
-     
-
-     $computerIPSubnet = GetSubnet -IpAddress $IPAddress -SubnetMask $subnetMask
-     $computerIPSubnet += "/"
-     $computerIPSubnet += ConvertSubnetMaskToNumBits -SubnetMask  $subnetMask
+       
      
      [bool] $isInPipe = $true
      if (($PSCmdlet.MyInvocation.PipelineLength -eq 1) -or ($PSCmdlet.MyInvocation.PipelineLength -eq $PSCmdlet.MyInvocation.PipelinePosition)) {
@@ -86,15 +81,25 @@ Will Dynamically set the Update Source based a list Provided
             }
         }
         if(!$SourceValue){#if no domain is found, tries by IP
-            foreach($imp in $importedSource){
+            foreach($imp in $importedSource){                          #updated to use the subnet mask of the CSV file against the computer's IP address, then compare it to the Subnet in the CSV file for a match
+                [int]$subnetMaskNumbits = $imp.Subnet.ToString().Substring($imp.Subnet.ToString().IndexOf('/')+1)
+                $subnetMask = CreateSubnet -SubnetMaskNumBits $subnetMaskNumbits
+                $computerIPSubnet = GetSubnet -IpAddress $IPAddress -SubnetMask $subnetMask
+                $computerIPSubnet += "/"
+                $computerIPSubnet += ConvertSubnetMaskToNumBits -SubnetMask  $subnetMask
                 if($imp.Subnet -eq $computerIPSubnet){#try to match source from the IP gathered from csv
                     $SourceValue = $imp.source
                 }
             }  
         }   
      }
-     else{        
-            foreach($imp in $importedSource){
+     else{        #uses this path if the "-SourceByIP" is set to true
+            foreach($imp in $importedSource){#updated to use the subnet mask of the CSV file against the computer's IP address, then compare it to the Subnet in the CSV file for a match
+                [int]$subnetMaskNumbits = $imp.Subnet.ToString().Substring($imp.Subnet.ToString().IndexOf('/')+1)
+                $subnetMask = CreateSubnet -SubnetMaskNumBits $subnetMaskNumbits
+                $computerIPSubnet = GetSubnet -IpAddress $IPAddress -SubnetMask $subnetMask
+                $computerIPSubnet += "/"
+                $computerIPSubnet += ConvertSubnetMaskToNumBits -SubnetMask  $subnetMask
                 if($imp.Subnet -eq $computerIPSubnet){#try to match source from the IP gathered from csv
                     $SourceValue = $imp.source
                 }
@@ -688,4 +693,62 @@ Function GetScriptPath() {
     $Subnet = $Subnet.Remove($Subnet.Length - 1, 1)
 
     return $Subnet
+ }
+
+ Function CreateSubnet(){
+     Param 
+        ( 
+            [int] 
+            $SubnetMaskNumBits
+        )
+        $SubnetMask = ""        
+
+        for($i=1; $i -lt 5; $i++){      
+        $SubnetMaskBitsInOctect = 0
+        if($SubnetMaskNumBits -gt 0)
+        {
+            if($SubnetMaskNumBits -lt 8)
+            {
+                $SubnetMaskBitsInOctect = $SubnetMaskNumBits
+                $SubnetMaskNumBits = 0
+            }
+            else
+            {
+                $SubnetMaskBitsInOctect = 8
+                $SubnetMaskNumBits -= 8
+            }
+        }
+        $tempSubnetOctect = 0
+        if([int]$SubnetMaskBitsInOctect -eq 1){               
+            $tempSubnetOctect =128
+        }
+        if([int]$SubnetMaskBitsInOctect -eq 2){
+            $tempSubnetOctect = 192
+        }
+        if([int]$SubnetMaskBitsInOctect -eq 3){
+            $tempSubnetOctect = 224
+        }
+        if([int]$SubnetMaskBitsInOctect -eq 4){
+            $tempSubnetOctect = 240
+        }
+        if([int]$SubnetMaskBitsInOctect -eq 5){
+            $tempSubnetOctect = 248
+        }
+        if([int]$SubnetMaskBitsInOctect -eq 6){
+            $tempSubnetOctect = 252
+        }
+        if([int]$SubnetMaskBitsInOctect -eq 7){
+            $tempSubnetOctect = 254
+        }
+        if([int]$SubnetMaskBitsInOctect -eq 8){
+            $tempSubnetOctect = 255
+        }
+        if([int]$i -lt 4){
+            $SubnetMask += $tempSubnetOctect.ToString() + "."
+        }
+        else{
+            $SubnetMask += $tempSubnetOctect.ToString()
+        }
+    }
+    return $SubnetMask
  }
