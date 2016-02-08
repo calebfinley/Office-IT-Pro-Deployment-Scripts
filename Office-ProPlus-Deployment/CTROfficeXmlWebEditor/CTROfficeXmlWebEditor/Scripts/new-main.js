@@ -2688,6 +2688,22 @@ function setTemplate(template) {
 
 }
 
+function dialogNext() {
+    $('#disclaimer').css('display', 'none');
+    $('#dialogNext').css('display', 'none');
+
+    $('#info').css('display', 'inline');
+    $('#dialogBack').css('display', 'inline');
+}
+
+function dialogBack() {
+    $('#disclaimer').css('display', 'inline');
+    $('#dialogNext').css('display', 'inline');
+
+    $('#info').css('display', 'none');
+    $('#dialogBack').css('display', 'none');
+}
+
 var versions = [
 '15.0.4745.1001',
 '15.0.4727.1003',
