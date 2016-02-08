@@ -6,9 +6,9 @@ $(document).ready(function () {
 
     var finput = document.getElementById('fileInput');
     finput.addEventListener('change', function (e) {
-        var hWCheck = $.cookie("hideWelcome");
+        var hWCheck = $.cookie("updatedBranches");
         if (!(hWCheck)) {
-            setCookie("hideWelcome", true, 1);
+            setCookie("updatedBranches", true, 1);
         }
         fileUploaded(e);
     });
@@ -18,7 +18,7 @@ $(document).ready(function () {
         document.getElementById("txtTargetVersion").style.lineHeight = "0px";
     }
 
-    var hW = $.cookie("hideWelcome");
+    var hW = $.cookie("updatedBranches");
     if (hW) {
         $("#welcomeDialog").hide();
         fadeBackground(false);
@@ -2617,7 +2617,7 @@ function foreverHideWelcome() {
     $("#welcomeDialog").fadeOut(function() {
         fadeBackground(false);
     });
-    $.cookie("hideWelcome", true);
+    $.cookie("updatedBranches", true);
 }
 
 function openCommentDialog() {
