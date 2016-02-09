@@ -1821,8 +1821,11 @@ function odtSaveUpdates(xmlDoc) {
         if ($("#office2016Select").hasClass("is-selected")) {
             var selectedBranch = $("#cbUpdateBranch").val();
             updateNode.setAttribute("Branch", selectedBranch);
+            updateNode.removeAttribute("AutoUpgrade");
         } else {
             updateNode.removeAttribute("Branch");
+            //updateNode.AddAttribute("AutoUpgrade");
+            //updateNode.setAttribute("AutoUpgrade","FALSE");
         }
     } else {
         updateNode.setAttribute("Enabled", "FALSE");
@@ -1852,10 +1855,13 @@ function odtSaveUpdates(xmlDoc) {
         updateNode.removeAttribute("Deadline");
     }
 
-    if (autoUpdate) {
-        updateNode.setAttribute("AutoUpgrade", "TRUE");
-    } else {
-        updateNode.removeAttribute("AutoUpgrade");
+    if (!$("#office2016Select").hasClass("is-selected")) {
+        if (autoUpdate) {
+            updateNode.setAttribute("AutoUpgrade", "TRUE");
+        } else {
+            updateNode.setAttribute("AutoUpgrade", "FALSE");
+    }
+   
 
     }
 
