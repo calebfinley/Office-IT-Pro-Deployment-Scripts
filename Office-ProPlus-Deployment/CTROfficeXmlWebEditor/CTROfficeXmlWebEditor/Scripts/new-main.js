@@ -1793,6 +1793,7 @@ function odtToggleUpdate() {
 function odtSaveUpdates(xmlDoc) {
     var selectUpdatePath = $("#txtUpdatePath").val();
     var selectTargetVersion = $("#txtTargetVersion").val();
+    var autoUpdate = $("#autoUpgradeEnable").is(":checked");
     var date = $(".ms-DatePicker .ms-TextField input").val(); //deadline textbox
     var $UpdatesEnabled = $("#updatesEnabled")[0];
     if (date) {
@@ -1827,6 +1828,8 @@ function odtSaveUpdates(xmlDoc) {
         updateNode.removeAttribute("TargetVersion");
         updateNode.removeAttribute("Deadline");
         updateNode.removeAttribute("Branch");
+        updateNode.removeAttribute("AutoUpgrade");
+
     }
 
     if (selectUpdatePath) {
@@ -1847,6 +1850,14 @@ function odtSaveUpdates(xmlDoc) {
         updateNode.removeAttribute("Deadline");
     }
 
+    if (autoUpdate) {
+        updateNode.setAttribute("AutoUpgrade", "TRUE");
+    } else {
+        updateNode.removeAttribute("AutoUpgrade");
+
+    }
+
+
 }
 
 function odtRemoveUpdates(xmlDoc) {
@@ -1860,6 +1871,7 @@ function odtRemoveUpdates(xmlDoc) {
     }
 
     $("#updatesEnabled")[0].checked = false;
+    $("#autoUpgradeEnable")[0].checked = false;
     odtToggleUpdate();
 }
 
