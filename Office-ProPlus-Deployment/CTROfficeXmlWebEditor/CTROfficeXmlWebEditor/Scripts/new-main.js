@@ -642,7 +642,7 @@ function changeVersions(version) {
         //$("#pidKeyLabel").show("slow");
         $("#branchSection").hide("slow");
         $("#updateBranchSection").hide("slow");
-
+        $("#autoUpgradeToggle").show("slow");
         //16.0.4229.1024
 
         $('#versionTextBox .typeahead').typeahead('destroy', 'NoCached');
@@ -675,6 +675,8 @@ function changeVersions(version) {
         //$("#pidKeyLabel").hide("slow");
         $("#branchSection").show("slow");
         $("#updateBranchSection").show("slow");
+        $("#autoUpgradeToggle").hide("slow");
+
         $("#txtPidKey").val("");
 
         $('#versionTextBox .typeahead').typeahead('destroy', 'NoCached');
