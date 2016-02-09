@@ -6,9 +6,9 @@ $(document).ready(function () {
 
     var finput = document.getElementById('fileInput');
     finput.addEventListener('change', function (e) {
-        var hWCheck = $.cookie("updatedBranches");
+        var hWCheck = $.cookie("hideWelcome");
         if (!(hWCheck)) {
-            setCookie("updatedBranches", true, 1);
+            setCookie("hideWelcome", true, 1);
         }
         fileUploaded(e);
     });
@@ -18,7 +18,7 @@ $(document).ready(function () {
         document.getElementById("txtTargetVersion").style.lineHeight = "0px";
     }
 
-    var hW = $.cookie("updatedBranches");
+    var hW = $.cookie("hideWelcome");
     if (hW) {
         $("#welcomeDialog").hide();
         fadeBackground(false);
@@ -2617,7 +2617,7 @@ function foreverHideWelcome() {
     $("#welcomeDialog").fadeOut(function() {
         fadeBackground(false);
     });
-    $.cookie("updatedBranches", true);
+    $.cookie("hideWelcome", true);
 }
 
 function openCommentDialog() {
@@ -2692,13 +2692,13 @@ function dialogNext() {
     $('#disclaimer').css('display', 'none');
     $('#dialogNext').css('display', 'none');
 
-    $('#info').css('display', 'inline');
-    $('#dialogBack').css('display', 'inline');
+    $('#info').css('display', 'block');
+    $('#dialogBack').css('display', 'block');
 }
 
 function dialogBack() {
-    $('#disclaimer').css('display', 'inline');
-    $('#dialogNext').css('display', 'inline');
+    $('#disclaimer').css('display', 'block');
+    $('#dialogNext').css('display', 'block');
 
     $('#info').css('display', 'none');
     $('#dialogBack').css('display', 'none');
