@@ -3,7 +3,7 @@ using System;
 namespace Microsoft.Office
 {
     [FlagsAttribute]
-    public enum Branches
+    public enum Branch
     {
         Current=0,
         Business=1,
@@ -13,6 +13,23 @@ namespace Microsoft.Office
 "
 try {
 Add-Type -TypeDefinition $enum3 -ErrorAction SilentlyContinue
+} catch {}
+
+$enum4 = "
+using System;
+namespace Microsoft.Office
+{
+    [FlagsAttribute]
+    public enum Channel
+    {
+        Current=0,
+        Deferred=1,
+        Validation=2
+    }
+}
+"
+try {
+Add-Type -TypeDefinition $enum4 -ErrorAction SilentlyContinue
 } catch {}
 
 Function Dynamic-UpdateSource {
@@ -116,7 +133,9 @@ Required. Specifies the edition of Click-to-Run for Office 365 product to use: 3
 .PARAMETER TargetFilePath
 Full file path for the file to be modified and be output to.
 .PARAMETER Branch
-Optional. Specifies the update branch for the product that you want to download or install.
+Optional. Depricated as of 2-29-16 and replaced by Channel. Specifies the update branch for the product that you want to download or install.
+.PARAMETER Channel
+Optional. Specifies the update Channel for the product that you want to download or install.
 .Example
 Set-ODTAdd -SourcePath "C:\Preload\Office" -TargetFilePath "$env:Public/Documents/config.xml"
 Sets config SourcePath property of the add element to C:\Preload\Office
@@ -151,7 +170,10 @@ Here is what the portion of configuration file looks like when modified by this 
         [string] $TargetFilePath,
 
         [Parameter(ValueFromPipelineByPropertyName=$true)]
-        [Microsoft.Office.Branches] $Branch = "Current"
+        [Microsoft.Office.Branches] $Branch,
+
+        [Parameter(ValueFromPipelineByPropertyName=$true)]
+        [Microsoft.Office.Channel] $Channel
 
     )
 
@@ -188,6 +210,10 @@ Here is what the portion of configuration file looks like when modified by this 
         }
 
         #Set values as desired
+        if($Channel -ne $null){
+            $ConfigFile.Configuration.Add.SetAttribute("Channel", $Channel);
+        }
+
         if($Branch -ne $null){
             $ConfigFile.Configuration.Add.SetAttribute("Branch", $Branch);
         }
@@ -283,7 +309,7 @@ file.
             throw $NoConfigurationElement
         }
         
-        $ConfigFile.Configuration.GetElementsByTagName("Add") | Select OfficeClientEdition, SourcePath, Version, Branch
+        $ConfigFile.Configuration.GetElementsByTagName("Add") | Select OfficeClientEdition, SourcePath, Version, Branch, Channel
     }
 
 }
